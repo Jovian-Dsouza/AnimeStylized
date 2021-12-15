@@ -6,11 +6,12 @@ dataset:
   num_workers: 3
 checkpoint:
   monitor: "loss"
-  # save_top_k: -1
+  save_top_k: -1
   mode: "min"
-  dirpath: "/content/drive/MyDrive/checkpoints/AnimeStylized"
+  # dirpath: ""
+  save_last: True
 logger:
-  save_dir: "logs"
+  save_dir: "/content/drive/MyDrive/checkpoints/AnimeStylized/logs"
   name: "animegan_pre"
   version: null
 model:
