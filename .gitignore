@@ -6,3 +6,11 @@ logs
 MNIST
 models
 devs
+**__pycache__**
+*.ipynb
+*.npy
+lightning_logs/
+results/
+cache/
+checkpoints/
+tmp/

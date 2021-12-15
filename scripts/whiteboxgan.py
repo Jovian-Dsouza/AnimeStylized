@@ -48,7 +48,6 @@ class GuidedFilter(nn.Module):
   def forward(self, x: torch.Tensor, y: torch.Tensor, r, eps=1e-2):
     b, c, h, w = x.shape
     device = x.device
-    # 全1的图像进行滤波的结果
     N = self.box_filter(torch.ones((1, 1, h, w), dtype=x.dtype, device=device), r)
 
     mean_x = self.box_filter(x, r) / N
@@ -73,7 +72,6 @@ class ColorShift(nn.Module):
     self.mode = mode
 
   def setup(self, device: torch.device):
-    # NOTE 原论文输入的bgr图像，此处需要改为rgb
     if self.mode == 'normal':
       self.dist = torch.distributions.Normal(
           torch.tensor((0.299, 0.587, 0.114), device=device),
@@ -167,6 +165,7 @@ class WhiteBoxGAN(pl.LightningModule):
     if optimizer_idx == 0:  # train generator
       generator_img = self.generator(input_photo)
       output = self.guided_filter(input_photo, generator_img, r=1)
+
       # 1. blur for Surface Representation
       blur_fake = self.guided_filter(output, output, r=5, eps=2e-1)
       blur_fake_logit = self.disc_blur(blur_fake)
