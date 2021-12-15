@@ -1,16 +1,13 @@
 dataset:
-  root: "/home/lxy/zhengqihang/animedataset"
-  style: "Hayao"
-  batch_size: 8
-  num_workers: 32
-  data_mean: [-4.4346957, -8.665916, 13.100612]
-  augment: False
-  normalize: True
-  totenor: True
+  root: "../cvpr_dataset"
+  scene_style: "shinkai"
+  face_style: "pa_face"
+  batch_size: 4
+  num_workers: 0
 checkpoint:
-  # monitor: "loss"
+  monitor: "loss"
   save_top_k: -1
-  mode: "all"
+  mode: "min"
 logger:
   save_dir: "logs"
   name: "animegan_pre"
@@ -26,9 +23,11 @@ trainer:
   gpus: 1
   max_epochs: 5
   benchmark: True
-  deterministic: True
+  deterministic: False
   log_every_n_steps: 10
   val_check_interval: 500
   limit_val_batches: 1
-# make train CODE=scripts/animegan_pretrain.py CFG=configs/animegan_pretrain.yaml
+  precision: 16
+# make train CODE=scripts/animegan_pretrain.py CFG=scripts/animegan_pretrain.py
 # make tensorboard LOGDIR=logs/animegan_pre/
+# python scripts/animegan_pretrain.py --config configs/animegan_pretrain.yaml --stage fit 

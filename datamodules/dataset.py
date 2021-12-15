@@ -2,12 +2,18 @@ from torchvision.datasets import VisionDataset
 from datamodules.dsfunction import imread
 from torch.utils.data import Dataset, RandomSampler, Sampler, DataLoader, TensorDataset, random_split, ConcatDataset
 import os
-import glob
+from glob import glob
 from typing import List, Sequence, Tuple
 from itertools import cycle, islice
 import torch
 from math import ceil
+from torchvision.io import read_image
+import pickle
+from copy import copy, deepcopy
+import torchvision.transforms.functional as F
+import kornia as K
 
+from typing import *
 
 class DataFolder(VisionDataset):
   def __init__(self, root, loader: callable, pattern: str, transforms=None, transform=None, target_transform=None):
@@ -29,25 +35,75 @@ class DataFolder(VisionDataset):
     return len(self.samples)
 
 
-class ImageFolder(VisionDataset):
-  def __init__(self, root, transforms=None, transform=None, target_transform=None):
-    super().__init__(root, transforms, transform, target_transform)
-    self.loader = imread
-    self.samples = os.listdir(root)
+# class ImageFolder(VisionDataset):
+#   def __init__(self, root, transforms=None, transform=None, target_transform=None):
+#     super().__init__(root, transforms, transform, target_transform)
+#     self.loader = imread
+#     self.samples = os.listdir(root)
 
-  def __len__(self) -> int:
-    return len(self.samples)
+#   def __len__(self) -> int:
+#     return len(self.samples)
 
-  def __getitem__(self, index: int):
-    path = self.samples[index]
-    sample = self.loader(self.root + '/' + path)
-    if self.transform is not None:
-      sample = self.transform(sample)
+#   def __getitem__(self, index: int):
+#     path = self.samples[index]
+#     sample = self.loader(self.root + '/' + path)
+#     if self.transform is not None:
+#       sample = self.transform(sample)
 
-    return sample
+#     return sample
 
-  def size(self, idx):
-    return len(self.samples)
+#   def size(self, idx):
+#     return len(self.samples)
+
+
+class ImageFolder(Dataset):
+    def __init__(self, root, transform=None) -> None:
+        super().__init__()
+        self.transform = transform
+        self.samples = []
+        for ext in ['jpg', 'png', 'jpeg']:
+            self.samples += glob(os.path.join(root, f'*.{ext}'))
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, index):
+        img_path = self.samples[index]
+        img = read_image(img_path)
+
+        if self.transform is not None:
+            img = self.transform(img)
+        return img
+
+class CartoonFolder(Dataset):
+    def __init__(self, root, smooth, transform=None) -> None:
+        super().__init__()
+        self.transform = transform
+        self.samples = os.listdir(root)
+        self.root = root
+        self.smooth = smooth
+
+        assert os.listdir(root) == os.listdir(smooth), "\nNo. of image in root dir and smooth dir should be the same\n"
+    
+    def __len__(self):
+        return len(self.samples)
+    
+    def __getitem__(self, index):
+        img_name = self.samples[index]
+        img_path = os.path.join(self.root, img_name)
+        smooth_path = os.path.join(self.smooth, img_name)
+        img = read_image(img_path)
+        smooth_img = read_image(smooth_path)
+
+        if self.transform is not None:
+            img = self.transform(img)
+            smooth_img = self.transform(smooth_img)
+            smooth_img = K.color.rgb_to_grayscale(smooth_img).repeat(3,1,1)
+        
+        gray = deepcopy(img)
+        gray = K.color.rgb_to_grayscale(gray).repeat(3,1,1)
+        
+        return img, gray, smooth_img
 
 
 class ImagePaths(VisionDataset):

@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.insert(0, os.getcwd())
-from datamodules.animegands import AnimeGANDataModule
+from datamodules.animeGan import AnimeGanDataModule 
 from typing import Dict, List, Tuple
 import torch
 from scripts.common import run_common, log_images
@@ -31,4 +31,4 @@ class AnimeGANPreTrain(AnimeGAN):
 
 
 if __name__ == "__main__":
-  run_common(AnimeGANPreTrain, AnimeGANDataModule)
+  run_common(AnimeGANPreTrain, AnimeGanDataModule)

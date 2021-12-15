@@ -6,7 +6,7 @@ import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from torchvision import transforms
 
-from dataset import *
+from datamodules.dataset import *
 
 # dataset output
 # input_photo, (input_cartoon, anime_gray_data), anime_smooth_gray_data = batch
@@ -104,8 +104,8 @@ if __name__ == '__main__':
     
     datamodule = AnimeGanDataModule(
         root = '../cvpr_dataset',
-        # scene_style = 'shinkai',
-        scene_style = 'hayao',
+        scene_style = 'shinkai',
+        # scene_style = 'hayao',
         face_style = 'pa_face',
         batch_size = 2, 
         num_workers = 0,

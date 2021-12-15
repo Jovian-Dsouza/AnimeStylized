@@ -129,14 +129,14 @@ def run_common(model_class: pl.LightningModule,
     datamodule = datamodule_class(**config['dataset'])
     ckpt_callback = CusModelCheckpoint(**config['checkpoint'])
     logger = TensorBoardLogger(**config['logger'])
-    callbacks = None
+    callbacks = [ckpt_callback]
     if 'callbacks' in config.keys():
       if config['callbacks'] is not None:
-        callbacks = []
+        # callbacks = []
         for k, v in config['callbacks'].items():
           callbacks.append(CALLBACKDICT[k](**v))
-
-    trainer = pl.Trainer(checkpoint_callback=ckpt_callback,
+    
+    trainer = pl.Trainer(callbacks=callbacks,
                          logger=logger,
                          **config['trainer'])
     if args.stage == 'fit':
