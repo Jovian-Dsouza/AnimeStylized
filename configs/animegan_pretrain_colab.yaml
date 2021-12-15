@@ -1,0 +1,35 @@
+dataset:
+  root: "../cvpr_dataset"
+  scene_style: "shinkai"
+  face_style: "pa_face"
+  batch_size: 16
+  num_workers: 3
+checkpoint:
+  monitor: "loss"
+  # save_top_k: -1
+  mode: "min"
+  dirpath: "/content/drive/MyDrive/checkpoints/AnimeStylized"
+logger:
+  save_dir: "logs"
+  name: "animegan_pre"
+  version: null
+model:
+  lr_g: 0.0002
+  b1: 0.5
+  b2: 0.99
+  generator_name: AnimeGenerator
+  discriminator_name: AnimeDiscriminator
+  pretrained_name: VGGCaffePreTrained
+trainer:
+  gpus: 1
+  max_epochs: 5
+  benchmark: True
+  deterministic: False
+  log_every_n_steps: 10
+  val_check_interval: 500
+  limit_val_batches: 1
+  precision: 16
+  
+# make train CODE=scripts/animegan_pretrain.py CFG=scripts/animegan_pretrain.py
+# make tensorboard LOGDIR=logs/animegan_pre/
+# python scripts/animegan_pretrain.py --config configs/animegan_pretrain.yaml --stage fit 
