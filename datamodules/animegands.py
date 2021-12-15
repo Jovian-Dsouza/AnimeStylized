@@ -47,13 +47,16 @@ class AnimeGANDataModule(pl.LightningDataModule):
       trian_root = (self.root / 'train_photo')
       anime_root = (self.root / f'{self.style}/style')
       smooth_root = (self.root / f'{self.style}/smooth')
+
       train_real = ImageFolder(trian_root.as_posix(),
                                transform=self.train_real_transform)
+
       train_anime = ImageFolder(anime_root.as_posix(),
                                 transform=self.train_anime_transform)
       train_anime_gray = ImageFolder(anime_root.as_posix(),
                                      transform=self.train_gray_transform)
       train_anime = TensorDataset(train_anime, train_anime_gray)
+      
       train_smooth_gray = ImageFolder(smooth_root.as_posix(),
                                       transform=self.train_gray_transform)
       self.ds_train = MergeDataset(train_real, train_anime, train_smooth_gray)

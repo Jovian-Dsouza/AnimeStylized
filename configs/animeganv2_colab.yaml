@@ -21,7 +21,7 @@ model:
   sty_weight: 2.5
   color_weight: 10.
   tv_weight: 1.
-  pre_trained_ckpt: logs/animegan_pre/version_0/checkpoints/epoch=4.ckpt
+  pre_trained_ckpt: logs/animegan_pre/version_5/checkpoints/epoch=4-step=54.ckpt
   generator_name: AnimeGenerator
   discriminator_name: AnimeDiscriminator
   pretrained_name: VGGCaffePreTrained
@@ -29,9 +29,10 @@ trainer:
   gpus: 1
   max_epochs: 50
   benchmark: True
-  deterministic: True
-  val_check_interval: 500
+  deterministic: False
   limit_val_batches: 1
   log_every_n_steps: 10
+  val_check_interval: 500
 # make train CODE=scripts/animeganv2.py CFG=configs/animeganv2.yaml
 # make tensorboard LOGDIR=logs/animeganv2/
+# python scripts/animeganv2.py --config configs/animeganv2.yaml --stage fit 

@@ -1,7 +1,9 @@
 import os
 import sys
 sys.path.insert(0, os.getcwd())
-from datamodules.animegands import AnimeGANDataModule
+# from datamodules.animegands import AnimeGANDataModule
+from datamodules.animeGan import AnimeGanDataModule 
+
 from datamodules.dsfunction import denormalize
 from losses.lsfunction import variation_loss, rgb2yuv
 from typing import Dict, List, Tuple
@@ -17,7 +19,7 @@ class AnimeGANv2(AnimeGAN):
 
   def training_step(self, batch: Tuple[torch.Tensor, Tuple[torch.Tensor, torch.Tensor], torch.Tensor],
                     batch_idx, optimizer_idx):
-    input_photo, (input_cartoon, anime_gray_data), anime_smooth_gray_data = batch
+    input_photo, (input_cartoon, anime_gray_data, anime_smooth_gray_data) = batch
 
     if optimizer_idx == 0:
       generated = self.generator(input_photo)
@@ -67,4 +69,4 @@ class AnimeGANv2(AnimeGAN):
 
 
 if __name__ == "__main__":
-  run_common(AnimeGANv2, AnimeGANDataModule, infer_fn)
+  run_common(AnimeGANv2, AnimeGanDataModule, infer_fn)
