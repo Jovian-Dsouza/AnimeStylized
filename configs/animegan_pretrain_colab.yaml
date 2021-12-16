@@ -2,8 +2,8 @@ dataset:
   root: "../cvpr_dataset"
   scene_style: "shinkai"
   face_style: "pa_face"
-  batch_size: 16
-  num_workers: 3
+  batch_size: 30
+  num_workers: 2
 checkpoint:
   monitor: "loss"
   save_top_k: -1

@@ -3,7 +3,7 @@ dataset:
   scene_style: "shinkai"
   face_style: "pa_face"
   batch_size: 16
-  num_workers: 3
+  num_workers: 2
 checkpoint:
   # monitor: dis/d_loss
   save_top_k: -1

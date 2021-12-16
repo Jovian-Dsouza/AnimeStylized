@@ -2,14 +2,14 @@ dataset:
   root: ../cvpr_dataset
   scene_style: "shinkai"
   face_style: "pa_face"
-  batch_size: 4
-  num_workers: 0
+  batch_size: 20
+  num_workers: 2
 checkpoint:
   # monitor: dis/d_loss
   save_top_k: -1
   mode: 'min'
 logger:
-  save_dir: logs
+  save_dir: "/content/drive/MyDrive/checkpoints/AnimeStylized/logs"
   name: animeganv2
   version: null
 model:
@@ -21,7 +21,7 @@ model:
   sty_weight: 2.5
   color_weight: 10.
   tv_weight: 1.
-  pre_trained_ckpt: logs/animegan_pre/version_5/checkpoints/epoch=4-step=54.ckpt
+  pre_trained_ckpt: "/content/drive/MyDrive/checkpoints/AnimeStylized/logs/animegan_pre/version_0/checkpoints/epoch=4-step=7499.ckpt"
   generator_name: AnimeGenerator
   discriminator_name: AnimeDiscriminator
   pretrained_name: VGGCaffePreTrained
