@@ -21,7 +21,7 @@ class AnimeGANv2(AnimeGAN):
                     batch_idx, optimizer_idx):
     input_photo, (input_cartoon, anime_gray_data, anime_smooth_gray_data) = batch
 
-    if optimizer_idx == 0:
+    if optimizer_idx == 0: # train discriminator
       generated = self.generator(input_photo)
       anime_logit = self.discriminator(input_cartoon)
       anime_gray_logit = self.discriminator(anime_gray_data)

@@ -9,7 +9,7 @@ from torchvision import transforms
 from datamodules.dataset import *
 
 # dataset output
-# input_photo, (input_cartoon, anime_gray_data), anime_smooth_gray_data = batch
+# batch => input_photo, (input_cartoon, anime_gray_data), anime_smooth_gray_data 
 
 class AnimeGanDataModule(pl.LightningDataModule):
     def __init__(self, root: str,
