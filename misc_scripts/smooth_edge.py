@@ -1,3 +1,6 @@
+'''
+This scripts applies Guassian smooth filter to all the cartoon images on the cvpr_dataset
+'''
 import os 
 import shutil
 from glob import glob
@@ -43,7 +46,7 @@ def make_edge_smooth(input_dir, save_dir, img_size=256) :
         cv2.imwrite(os.path.join(save_dir, file_name), gauss_img)
 
 if __name__ == '__main__':
-    root = '../../cvpr_dataset'
+    root = '../DATASET/cvpr_dataset'
     img_size = 256
     
     for folder in glob(os.path.join(root, '*_cartoon')):

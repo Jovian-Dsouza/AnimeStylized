@@ -24,7 +24,13 @@ mv vgg19_no_fc.npy vgg19.npy
 
 ## How to train the model 
 
-### First Pretrain the Generator
+### Generate Smooth Edge 
+```
+cd misc_scripts
+python smooth_edge.py 
+```
+
+### Pretrain the Generator
 ```
 make train CODE=scripts/animegan_pretrain.py CFG=configs/animegan_pretrain_colab.yaml
 ```
