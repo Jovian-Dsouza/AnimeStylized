@@ -27,7 +27,7 @@ mv vgg19_no_fc.npy vgg19.npy
 ### Generate Smooth Edge 
 ```
 cd misc_scripts
-python smooth_edge.py 
+python smooth_edge.py --dataset_path="$ROOT/cvpr_dataset" --image_size=256
 ```
 
 ### Pretrain the Generator
